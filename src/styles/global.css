@@ -1,0 +1,121 @@
+@import 'tailwindcss';
+@import './components.css';
+
+/* -------------------------------------------------------------------------
+ * Design tokens — "Lotus Nature Meets Smart Travel Technology"
+ * Exposed both as Tailwind utilities (bg-forest, text-ink …) and as plain
+ * CSS variables (var(--color-forest)) for hand-written component styles.
+ * ---------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Be Vietnam Pro', 'Inter', 'Plus Jakarta Sans', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Brand palette */
+  --color-forest: #176b50; /* primary actions, nav accents */
+  --color-forest-hover: #125a43;
+  --color-forest-deep: #153f32; /* dark surfaces, footer */
+  --color-forest-ink: #0f2f25;
+  --color-leaf: #8ebf83; /* secondary accents */
+  --color-leaf-soft: #dcebd4;
+  --color-botanical: #f4f8ef; /* light section background */
+  --color-lotus: #efa4b5; /* badges & highlights — use sparingly */
+  --color-lotus-soft: #fbe8ec;
+  --color-lotus-deep: #b2506b; /* pink for small text (AA on light bg) */
+  --color-cream: #faf8f0; /* warm page background */
+  --color-ink: #34483d; /* body text */
+  --color-muted: #718176; /* large / decorative secondary text */
+  --color-muted-ink: #5b6b60; /* small secondary text (AA on cream) */
+  --color-line: #e3e8dc; /* hairline borders */
+  --color-gold: #c4a15a; /* subtle passport accents */
+  --color-gold-soft: #f3e7c9;
+
+  /* Radii — one consistent scale */
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+
+  /* Shadows */
+  --shadow-soft: 0 1px 2px rgb(21 63 50 / 0.04), 0 8px 24px -12px rgb(21 63 50 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(21 63 50 / 0.05), 0 22px 44px -20px rgb(21 63 50 / 0.28);
+  --shadow-float: 0 18px 40px -16px rgb(15 47 37 / 0.35);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-scan: scan 2.8s ease-in-out infinite;
+  --animate-drift: drift 9s ease-in-out infinite;
+
+  @keyframes scan {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(var(--scan-distance, 7rem));
+    }
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(var(--r, 0deg));
+    }
+    50% {
+      transform: translate3d(0, -8px, 0) rotate(calc(var(--r, 0deg) + 6deg));
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem; /* keep anchor targets clear of the sticky header */
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-forest-deep;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-lotus-soft);
+    color: var(--color-forest-deep);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-forest);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-lotus);
+  }
+}
+
+/* Respect reduced-motion everywhere, including Tailwind animate-* utilities. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
